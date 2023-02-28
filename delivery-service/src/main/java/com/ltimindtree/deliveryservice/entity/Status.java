@@ -1,5 +1,6 @@
 package com.ltimindtree.deliveryservice.entity;
 
-public class A {
+public enum Status {
 
+	Available , Occupied
 }
