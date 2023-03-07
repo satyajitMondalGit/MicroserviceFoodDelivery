@@ -46,7 +46,7 @@ public class FoodItem {
 	private int quentity;
 
 	@ManyToOne
-	@JoinColumn(name = "restaurant_id", nullable = false)
+	@JoinColumn(name = "restaurant_Id", nullable = false)
 	@JsonBackReference
 	private Restaurant restaurant;
 

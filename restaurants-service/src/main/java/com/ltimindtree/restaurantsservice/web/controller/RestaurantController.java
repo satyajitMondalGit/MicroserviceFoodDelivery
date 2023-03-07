@@ -28,25 +28,25 @@ public class RestaurantController {
 		this.restaurantService = restaurantService;
 	}
 
-	@GetMapping("/{name}")
+	@GetMapping("/name/{name}")
 	ResponseEntity<RestaurantDTO> getResturantByName(@PathVariable String name){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByName(name), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{location}")
+	@GetMapping("/location/{location}")
 	ResponseEntity<List<RestaurantDTO>> getResturantByLocation(@PathVariable String location){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByLocation(location), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{cuisine}")
+	@GetMapping("/cuisine/{cuisine}")
 	ResponseEntity<List<RestaurantDTO>> getResturantByCuisine(@PathVariable String cuisine){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByCuisine(cuisine), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{budget}")
+	@GetMapping("/budget/{budget}")
 	ResponseEntity<List<RestaurantDTO>> getResturantBudget(@PathVariable int budget){
 		
 		return new ResponseEntity<>(restaurantService.getResturantBudget(budget), HttpStatus.OK);
@@ -60,6 +60,7 @@ public class RestaurantController {
 	
 	@PostMapping("/")
 	ResponseEntity<?> addRestaurand(@RequestBody Restaurant restaurent){
+		
 		return new ResponseEntity<>(restaurantService.addRestaurand(restaurent), HttpStatus.CREATED);
 	}
 	

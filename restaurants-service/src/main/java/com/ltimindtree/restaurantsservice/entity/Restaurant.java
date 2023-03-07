@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +40,8 @@ public class Restaurant {
 	@Column(name = "restaurant_id")
 	private long restaurantId;
 
-	@Column(name = "restaurant_id")
+	@UniqueElements
+	@Column(name = "restaurant_name")
 	private String restaurantName;
 
 	@Embedded
@@ -46,9 +49,13 @@ public class Restaurant {
 
 	@Builder.Default
 	@ElementCollection
-	@CollectionTable(name = "location_tag", joinColumns = @JoinColumn(name = "restaurant_id"))
 	private Set<String> locationTag = new HashSet<>();
 
+	
+	@Builder.Default
+	@ElementCollection
+	private Set<String> cuisineTag = new HashSet<>();
+	
 	@OneToMany(mappedBy = "restaurant")
 	@JsonManagedReference
 	private List<FoodItem> items;

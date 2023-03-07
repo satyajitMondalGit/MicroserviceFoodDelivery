@@ -18,13 +18,17 @@ public class FoodItemDTO {
 	@NotBlank
 	private int itemId;
 
+	@NotBlank
 	private String itemName;
 
+	@NotBlank
 	private String category;
 
 
+	@NotBlank
 	private String cuisine;
 
+	@NotBlank
 	private int price;
 
 	@NotBlank

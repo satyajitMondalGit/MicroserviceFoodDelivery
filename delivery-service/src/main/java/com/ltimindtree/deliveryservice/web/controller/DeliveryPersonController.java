@@ -1,5 +1,7 @@
 package com.ltimindtree.deliveryservice.web.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class DeliveryPersonController {
 	private DeliveryService deliveryService;
 	
 	@PostMapping("/person")
-	ResponseEntity<DeliveryPersonDto> addDeliveryPerson(@RequestBody DeliveryPersonDto dPersonDto){
+	ResponseEntity<DeliveryPersonDto> addDeliveryPerson( @RequestBody @Valid DeliveryPersonDto dPersonDto){
 		return new ResponseEntity<>(deliveryService.addDeliveryPerson(dPersonDto), HttpStatus.CREATED);
 	}
 	

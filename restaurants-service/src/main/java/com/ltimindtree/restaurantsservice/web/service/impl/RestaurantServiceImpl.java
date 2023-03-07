@@ -42,6 +42,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 								.price(i.getPrice())
 								.build()).collect(Collectors.toList()))
 						.build())
+				.budget(restaurent.getBudget())
 				.build();
 	}
 
@@ -62,7 +63,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 								.price(i.getPrice())
 								.build()).collect(Collectors.toList()))
 						.build())
+				.budget(restaurent.getBudget())
 				.build()).collect(Collectors.toList());
+		
+
 	}
 
 	@Override
@@ -81,7 +85,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 								.price(i.getPrice())
 								.build()).collect(Collectors.toList()))
 						.build())
+				.budget(restaurent.getBudget())
 				.build()).collect(Collectors.toList());
+		
+
 	}
 
 	@Override
@@ -100,7 +107,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 								.price(i.getPrice())
 								.build()).collect(Collectors.toList()))
 						.build())
+				.budget(restaurent.getBudget())
 				.build()).collect(Collectors.toList());
+		
+
 	}
 
 	@Override
@@ -115,11 +125,25 @@ public class RestaurantServiceImpl implements RestaurantService {
 						.price(i.getPrice())
 						.build()).collect(Collectors.toList()))
 				.build();
+		
 	}
 
 	@Override
 	public Restaurant addRestaurand(Restaurant restaurent) {
-		return restaurantRepo.save(restaurent);
+		
+	List<FoodItem> footItemList = restaurent.getItems();
+		
+		
+		Restaurant res = restaurantRepo.save(restaurent);
+
+		List<FoodItem> footItemList2 = footItemList.stream().map(f -> {
+			f.setRestaurant(res);
+			return foodItemRepository.save(f);
+		}).collect(Collectors.toList());
+		
+		res.setItems(footItemList2);
+		
+		return res;
 	}
 
 }

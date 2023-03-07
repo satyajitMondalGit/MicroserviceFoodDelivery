@@ -1,8 +1,6 @@
 package com.ltimindtree.cartservice.web.dto;
 
-import javax.persistence.Embedded;
-
-import com.ltimindtree.cartservice.entity.FoodItem;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +21,7 @@ public class ResponseCartDTO {
 	private long restaurantId;
 
 	
-	private FoodItem fooditem;
+	private List<FoodItemDTO> fooditems;
 
 	private int totalPrice;
 }

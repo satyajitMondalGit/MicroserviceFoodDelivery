@@ -29,7 +29,7 @@ public class DeliveryPerson {
 	
 	private String email;
 	
-	private int mobile;
+	private String mobile;
 	
 	private Float rating;
 	

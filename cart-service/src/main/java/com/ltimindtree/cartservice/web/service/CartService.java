@@ -9,7 +9,7 @@ public interface CartService {
 
 	ResponseCartDTO updateItemOfTheCart(CartDTO cartDto);
 
-	ResponseCartDTO deleteItemFromTheCart(CartDTO cartDto);
+	String deleteItemFromTheCart(CartDTO cartDto);
 
 	ResponseCartDTO getCartDetails(long userId);
 

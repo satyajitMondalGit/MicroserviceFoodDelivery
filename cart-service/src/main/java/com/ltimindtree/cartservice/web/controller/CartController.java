@@ -1,5 +1,7 @@
 package com.ltimindtree.cartservice.web.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,25 +29,25 @@ public class CartController {
 	}
 
 	@PostMapping("/add")
-	ResponseEntity<ResponseCartDTO> addItemInTheCart(@RequestBody CartDTO cartDto) {
+	ResponseEntity<ResponseCartDTO> addItemInTheCart(@Valid @RequestBody CartDTO cartDto) {
 
 		return new ResponseEntity<>(cartService.addItemInTheCart(cartDto), HttpStatus.ACCEPTED);
 	}
 
 	@PutMapping("/update")
-	ResponseEntity<ResponseCartDTO> updateItemOfTheCart(@RequestBody CartDTO cartDto) {
+	ResponseEntity<ResponseCartDTO> updateItemOfTheCart(@Valid @RequestBody CartDTO cartDto) {
 
 		return new ResponseEntity<>(cartService.updateItemOfTheCart(cartDto), HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/delete")
-	ResponseEntity<ResponseCartDTO> deleteItemFromTheCart(@RequestBody CartDTO cartDto) {
+	ResponseEntity<String> deleteItemFromTheCart(@Valid @RequestBody CartDTO cartDto) {
 
 		return new ResponseEntity<>(cartService.deleteItemFromTheCart(cartDto), HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}")
-	ResponseEntity<ResponseCartDTO> getCartDetails(@PathVariable long userId) {
+	ResponseEntity<ResponseCartDTO> getCartDetails(@PathVariable @Valid long userId) {
 
 		return new ResponseEntity<>(cartService.getCartDetails(userId), HttpStatus.OK);
 	}
