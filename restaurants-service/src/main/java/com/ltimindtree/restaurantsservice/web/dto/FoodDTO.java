@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class FoodItemDto {
+public class FoodDTO {
 	
 	private int itemId;
 

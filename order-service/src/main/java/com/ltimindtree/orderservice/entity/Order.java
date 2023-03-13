@@ -3,6 +3,8 @@ package com.ltimindtree.orderservice.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.ltimindtree.orderservice.entity.FoodItem.FoodItemBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "order")
+@Table(name = "order_table")
 public class Order {
 
 	
@@ -43,6 +44,7 @@ public class Order {
 
 	private int totalPrice;
 	
+	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	
 	private String cardNumber;

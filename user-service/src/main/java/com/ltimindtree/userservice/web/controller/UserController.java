@@ -15,7 +15,7 @@ import com.ltimindtree.userservice.web.dto.UserDTO;
 import com.ltimindtree.userservice.web.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/v1/user/")
 public class UserController {
 
 	private UserService userService;
@@ -27,20 +27,20 @@ public class UserController {
 	}
 
 
-	@PostMapping("/add")
+	@PostMapping("add")
 	ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDto){
 		
 		return new ResponseEntity<>(userService.addUser(userDto),HttpStatus.OK);
 	}
 	
 	
-	@GetMapping("/user/{userId}")
+	@GetMapping("{userId}")
 	ResponseEntity<UserDTO> getUser(@PathVariable("userId") long userId){
 		
 		return new ResponseEntity<>(userService.getUser(userId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/user/{userId}/address/{addId}")
+	@GetMapping("{userId}/address/{addId}")
 	ResponseEntity<AddressDTO> getAddress(@PathVariable("userId") long userId, @PathVariable("addId")long addId){
 		
 		return new ResponseEntity<>(userService.getAddress(userId,addId),HttpStatus.OK);

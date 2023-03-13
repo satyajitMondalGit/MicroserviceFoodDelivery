@@ -13,4 +13,7 @@ public class Constants {
 	public final static String ORDER_PAYMENT_ROUTING_KEY = "orderPaymentKey";
 	public final static String ORDER_DELIVERY_ROUTING_KEY = "orderDeliveryKey";
 	
+	public final static String DELIVERY_ORDER_QUEUE = "deliveryOrderQueue";
+	public final static String RESTAURANTS_ORDER_QUEUE = "restaurantOrderQueue";
+	
 }

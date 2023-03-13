@@ -39,46 +39,43 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public ResponseCartDTO addItemInTheCart(CartDTO cartDto) {
 		Optional<Cart> cart = cartRepo.findbyUserId(cartDto.getUserId());
-		Cart cartFinal = new Cart(); 
-		
+		Cart cartFinal = new Cart();
+
 		if (cart.isPresent()) {
-			
+
 			List<FoodItem> allFood = foodRepo.findbyUserId(cartDto.getUserId());
-		//	.orElseThrow(()->new FoodItemNotFound("Food Item Not Found"));
+			// .orElseThrow(()->new FoodItemNotFound("Food Item Not Found"));
 
-			
-			List<Integer> itemset= allFood.stream().map(f->f.getItemId()).collect(Collectors.toList());
-			
+			List<Integer> itemset = allFood.stream().map(f -> f.getItemId()).collect(Collectors.toList());
 
-			List<FoodItem> fList = cartDto.getFoodItem().stream()
-					.map(f -> {
-						if(itemset != null && itemset.contains(f.getItemId())) {
-							throw new ItemAlreadyExistException("Item is already exits");
-						}else {
-							System.out.println("itemset"+itemset.size());
-							FoodItem f1= FoodItem.builder().itemId(f.getItemId()).itemName(f.getItemName())
-									.category(f.getCategory()).cuisine(f.getCuisine()).price(f.getPrice())
-									.quentity(f.getQuentity()).cart(cart.get()).build();
+			List<FoodItem> fList = cartDto.getFoodItem().stream().map(f -> {
+				if (itemset != null && itemset.contains(f.getItemId())) {
+					return null;
+				} else {
+					System.out.println("itemset" + itemset.size());
+					FoodItem f1 = FoodItem.builder().itemId(f.getItemId()).itemName(f.getItemName())
+							.category(f.getCategory()).cuisine(f.getCuisine()).price(f.getPrice())
+							.quentity(f.getQuentity()).cart(cart.get()).build();
 
-							return foodRepo.save(f1);
-						}})
-					.collect(Collectors.toList());
-if(fList ==null) {throw new ItemAlreadyExistException("Item is already exits");}
-			
-			
-			
+					return foodRepo.save(f1);
+				}
+			}).collect(Collectors.toList());
+			if (fList == null) {
+				throw new ItemAlreadyExistException("Item is already exits");
+			}
+
 			allFood.addAll(fList);
-			cartFinal.setFooditem( allFood);
+			cartFinal.setFooditem(allFood);
 			cartFinal.setCartId(cart.get().getCartId());
 			cartFinal.setRestaurantId(cart.get().getRestaurantId());
 			cartFinal.setUserId(cart.get().getUserId());
 			cartFinal.setTotalPrice(allFood.stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0, Integer::sum));
-			
+
 			cartRepo.save(cartFinal);
 		} else {
-			Cart cart1 = Cart
-					.builder().userId((long)cartDto.getUserId()).restaurantId((long)cartDto.getResturantId()).totalPrice(cartDto
-							.getFoodItem().stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0, Integer::sum))
+			Cart cart1 = Cart.builder().userId((long) cartDto.getUserId()).restaurantId((long) cartDto.getResturantId())
+					.totalPrice(cartDto.getFoodItem().stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0,
+							Integer::sum))
 					.build();
 			Cart cartNew = cartRepo.save(cart1);
 
@@ -93,45 +90,44 @@ if(fList ==null) {throw new ItemAlreadyExistException("Item is already exits");}
 			cartFinal.setRestaurantId(cartNew.getRestaurantId());
 			cartFinal.setUserId(cartNew.getUserId());
 			cartFinal.setTotalPrice(cartNew.getTotalPrice());
-			
-		}
-		
 
-		return ResponseCartDTO.builder().userId(cartFinal.getUserId()).restaurantId(cartFinal.getCartId())
+		}
+
+		return ResponseCartDTO.builder().userId(cartFinal.getUserId()).restaurantId(cartFinal.getRestaurantId())
 				.fooditems(cartDto.getFoodItem()).totalPrice(cartFinal.getTotalPrice()).build();
 	}
 
 	@Override
 	public ResponseCartDTO updateItemOfTheCart(CartDTO cartDto) {
 		Optional<Cart> cart = cartRepo.findbyUserId(cartDto.getUserId());
-		int totalPrice = 0; 
-		Cart cartFinal = new Cart(); 
+		int totalPrice = 0;
+		Cart cartFinal = new Cart();
 		if (cart.isPresent()) {
 			totalPrice = cart.get().getTotalPrice();
 			List<FoodItem> allFood = foodRepo.findbyUserId(cartDto.getUserId());
 
-			Map<Integer, FoodItem> item= allFood.stream().collect(Collectors.toMap(FoodItem::getItemId, Function.identity()));
-			Set<FoodItem> fList = cartDto.getFoodItem().stream()
-					.map(f -> {
-						if((item.containsKey(f.getItemId()))) {
-							FoodItem f1 = item.get(f.getItemId());
-							f1.setQuentity(f.getQuentity());
-							
-							return (FoodItem)foodRepo.save(f1);
-						}else {
-							throw new FoodItemNotFound("Item is not added earlier. Please add it first");
-						}})
-					.collect(Collectors.toSet());
-			
-			 allFood = foodRepo.findbyUserId(cartDto.getUserId());
+			Map<Integer, FoodItem> item = allFood.stream()
+					.collect(Collectors.toMap(FoodItem::getItemId, Function.identity()));
+			Set<FoodItem> fList = cartDto.getFoodItem().stream().map(f -> {
+				if ((item.containsKey(f.getItemId()))) {
+					FoodItem f1 = item.get(f.getItemId());
+					f1.setQuentity(f.getQuentity());
+
+					return (FoodItem) foodRepo.save(f1);
+				} else {
+					throw new FoodItemNotFound("Item is not added earlier. Please add it first");
+				}
+			}).collect(Collectors.toSet());
+
+			allFood = foodRepo.findbyUserId(cartDto.getUserId());
 			cartFinal.setFooditem(allFood);
 			cartFinal.setCartId(cart.get().getCartId());
 			cartFinal.setRestaurantId(cart.get().getRestaurantId());
 			cartFinal.setUserId(cart.get().getUserId());
 			cartFinal.setTotalPrice(allFood.stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0, Integer::sum));
-			
+
 			cartRepo.save(cartFinal);
-		}else {
+		} else {
 			throw new UserNotFoundException("No Item Found for this user");
 		}
 		return ResponseCartDTO.builder().userId(cartFinal.getUserId()).restaurantId(cartFinal.getCartId())
@@ -140,34 +136,40 @@ if(fList ==null) {throw new ItemAlreadyExistException("Item is already exits");}
 
 	@Override
 	public String deleteItemFromTheCart(CartDTO cartDto) {
-		Optional<Cart> cart = cartRepo.findbyUserId(cartDto.getUserId());
-		Cart cartFinal = new Cart(); 
+		Optional<Cart> cart = cartRepo.findbyUserId((long) cartDto.getUserId());
+		Cart cartFinal = new Cart();
 		if (cart.isPresent()) {
-			List<FoodItem> allFood = foodRepo.findbyUserId(cartDto.getUserId());
+			List<FoodItem> allFood = foodRepo.findbyUserId((long) cartDto.getUserId());
+			
+			
+			Map<Integer, FoodItem> item = allFood.stream()
+					.collect(Collectors.toMap(FoodItem::getItemId, Function.identity()));
+			// log.info("item "+item);
 
-			Map<Integer, FoodItem> item= allFood.stream().collect(Collectors.toMap(FoodItem::getItemId, Function.identity()));
-			Set<FoodItem> fList = cartDto.getFoodItem().stream()
-					.filter(f -> item.containsKey(f.getItemId()))
-					.map(f->item.get(f.getItemId()))
-					.collect(Collectors.toSet());
-			
-			if(allFood.size()==fList.size()) {
-				foodRepo.deleteAll(fList);
+			Set<FoodItem> fList = cartDto.getFoodItem().stream().filter(f -> item.containsKey(f.getItemId()))
+					.map(f -> item.get(f.getItemId())).collect(Collectors.toSet());
+
+			foodRepo.deleteAll(fList);
+			allFood.removeAll(fList);
+
+			List<FoodItem> allUpdatedFood = foodRepo.findbyUserId((long) cartDto.getUserId());
+			log.info("size test " + allUpdatedFood );
+			if (allUpdatedFood ==null || allUpdatedFood.size()<=0) {
 				cartRepo.delete(cart.get());
-			}else {
-				foodRepo.deleteAll(fList);
-				allFood.removeAll(fList);
+				
+			} else {
+				
+				cartFinal.setFooditem(allUpdatedFood);
+				cartFinal.setCartId(cart.get().getCartId());
+				cartFinal.setRestaurantId(cart.get().getRestaurantId());
+				cartFinal.setUserId(cart.get().getUserId());
+				cartFinal.setTotalPrice(
+						allUpdatedFood.stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0, Integer::sum));
+
+				cartRepo.save(cartFinal);
 			}
-			
-			
-			cartFinal.setFooditem(allFood);
-			cartFinal.setCartId(cart.get().getCartId());
-			cartFinal.setRestaurantId(cart.get().getRestaurantId());
-			cartFinal.setUserId(cart.get().getUserId());
-			cartFinal.setTotalPrice(allFood.stream().map(f -> f.getPrice() * f.getQuentity()).reduce(0, Integer::sum));
-			
-			cartRepo.save(cartFinal);
-		}else {
+
+		} else {
 			throw new UserNotFoundException("No Item Found for this user");
 		}
 		return "Item Deleted Successfully";
@@ -175,10 +177,11 @@ if(fList ==null) {throw new ItemAlreadyExistException("Item is already exits");}
 
 	@Override
 	public ResponseCartDTO getCartDetails(long userId) {
-		Cart cart = cartRepo.findbyUserId(userId).orElseThrow(()->new UserNotFoundException("No Item Found for this user"));
+		Cart cart = cartRepo.findbyUserId(userId)
+				.orElseThrow(() -> new UserNotFoundException("No Item Found for this user"));
 		List<FoodItem> allFood = foodRepo.findbyUserId(userId);
 		cart.setFooditem(allFood);
-		
+
 		return ResponseCartDTO.builder().userId(cart.getUserId()).restaurantId(cart.getCartId())
 				.fooditems(cart.getFooditem().stream()
 						.map(f -> FoodItemDTO.builder().itemId(f.getItemId()).itemName(f.getItemName())

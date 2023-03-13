@@ -5,6 +5,7 @@ import java.util.List;
 import com.ltimindtree.restaurantsservice.entity.Restaurant;
 import com.ltimindtree.restaurantsservice.web.dto.MenuDTO;
 import com.ltimindtree.restaurantsservice.web.dto.RestaurantDTO;
+import com.ltimindtree.restaurantsservice.web.dto.RestaureantMsgDTO;
 
 
 
@@ -21,6 +22,8 @@ public interface RestaurantService {
 	MenuDTO getResturantMenubById(long id);
 
 	Restaurant addRestaurand(Restaurant restaurent);
+
+	void processTheOrderedFood(RestaureantMsgDTO restaurantDto);
 	
 
 }

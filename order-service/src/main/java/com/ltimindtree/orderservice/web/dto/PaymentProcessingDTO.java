@@ -1,5 +1,7 @@
 package com.ltimindtree.orderservice.web.dto;
 
+import java.io.Serializable;
+
 import com.ltimindtree.orderservice.web.dto.FoodItemDTO.FoodItemDTOBuilder;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +15,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PaymentProcessingDTO {
+public class PaymentProcessingDTO implements Serializable{
 
+	
 	private cardInformationDTO cardDetails;
+	private int amount;
 }

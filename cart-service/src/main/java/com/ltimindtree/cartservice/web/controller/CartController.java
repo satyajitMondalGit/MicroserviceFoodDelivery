@@ -17,7 +17,7 @@ import com.ltimindtree.cartservice.web.dto.CartDTO;
 import com.ltimindtree.cartservice.web.dto.ResponseCartDTO;
 import com.ltimindtree.cartservice.web.service.CartService;
 
-@RequestMapping("/cart")
+@RequestMapping("api/v1/cart/")
 @RestController
 public class CartController {
 
@@ -28,25 +28,26 @@ public class CartController {
 		this.cartService = cartService;
 	}
 
-	@PostMapping("/add")
+	@PostMapping("add")
 	ResponseEntity<ResponseCartDTO> addItemInTheCart(@Valid @RequestBody CartDTO cartDto) {
 
 		return new ResponseEntity<>(cartService.addItemInTheCart(cartDto), HttpStatus.ACCEPTED);
 	}
 
-	@PutMapping("/update")
+	@PutMapping("update")
 	ResponseEntity<ResponseCartDTO> updateItemOfTheCart(@Valid @RequestBody CartDTO cartDto) {
 
 		return new ResponseEntity<>(cartService.updateItemOfTheCart(cartDto), HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/delete")
-	ResponseEntity<String> deleteItemFromTheCart(@Valid @RequestBody CartDTO cartDto) {
+	@DeleteMapping("delete")
+	public void deleteItemFromTheCart(@Valid @RequestBody CartDTO cartDto) {
 
-		return new ResponseEntity<>(cartService.deleteItemFromTheCart(cartDto), HttpStatus.OK);
+		cartService.deleteItemFromTheCart(cartDto);
+		//return new ResponseEntity<>(, HttpStatus.OK);
 	}
 
-	@GetMapping("/{userId}")
+	@GetMapping("{userId}")
 	ResponseEntity<ResponseCartDTO> getCartDetails(@PathVariable @Valid long userId) {
 
 		return new ResponseEntity<>(cartService.getCartDetails(userId), HttpStatus.OK);

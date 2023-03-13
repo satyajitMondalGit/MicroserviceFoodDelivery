@@ -15,5 +15,5 @@ import lombok.ToString;
 @ToString
 public class MenuDTO {
 
-	private List<FoodItemDto> items;
+	private List<FoodDTO> items;
 }

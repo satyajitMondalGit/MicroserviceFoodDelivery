@@ -1,5 +1,7 @@
 package com.ltimindtree.orderservice.web.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RequestOrderDTO {
+public class RequestOrderDTO implements Serializable{
 
 	
 	private long userId;

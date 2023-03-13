@@ -1,5 +1,7 @@
 package com.ltimindtree.orderservice.web.dto;
 
+import java.io.Serializable;
+
 import com.ltimindtree.orderservice.entity.Order;
 import com.ltimindtree.orderservice.web.dto.FoodItemDTO.FoodItemDTOBuilder;
 
@@ -14,7 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ResponseOrderDTO {
+public class ResponseOrderDTO implements Serializable {
 
 	private String message;
 	

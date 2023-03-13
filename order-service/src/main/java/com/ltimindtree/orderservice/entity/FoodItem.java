@@ -48,7 +48,6 @@ public class FoodItem {
 
 
 	@ManyToOne
-	@JoinColumn(name = "order_Id", nullable = false)
 	@JsonBackReference
 	private Order order;
 

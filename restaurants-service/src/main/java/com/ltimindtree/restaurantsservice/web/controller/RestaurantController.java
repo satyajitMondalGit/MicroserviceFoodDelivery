@@ -17,7 +17,7 @@ import com.ltimindtree.restaurantsservice.web.dto.RestaurantDTO;
 import com.ltimindtree.restaurantsservice.web.service.RestaurantService;
 
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping("api/v1/restaurant/")
 public class RestaurantController {
 	
 	
@@ -28,37 +28,37 @@ public class RestaurantController {
 		this.restaurantService = restaurantService;
 	}
 
-	@GetMapping("/name/{name}")
+	@GetMapping("name/{name}")
 	ResponseEntity<RestaurantDTO> getResturantByName(@PathVariable String name){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByName(name), HttpStatus.OK);
 	}
 	
-	@GetMapping("/location/{location}")
+	@GetMapping("location/{location}")
 	ResponseEntity<List<RestaurantDTO>> getResturantByLocation(@PathVariable String location){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByLocation(location), HttpStatus.OK);
 	}
 	
-	@GetMapping("/cuisine/{cuisine}")
+	@GetMapping("cuisine/{cuisine}")
 	ResponseEntity<List<RestaurantDTO>> getResturantByCuisine(@PathVariable String cuisine){
 		
 		return new ResponseEntity<>(restaurantService.getResturantByCuisine(cuisine), HttpStatus.OK);
 	}
 	
-	@GetMapping("/budget/{budget}")
+	@GetMapping("budget/{budget}")
 	ResponseEntity<List<RestaurantDTO>> getResturantBudget(@PathVariable int budget){
 		
 		return new ResponseEntity<>(restaurantService.getResturantBudget(budget), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}/menu")
+	@GetMapping("{id}/menu")
 	ResponseEntity<MenuDTO> getResturantMenubById(@PathVariable long id){
 		
 		return new ResponseEntity<>(restaurantService.getResturantMenubById(id), HttpStatus.OK);
 	}
 	
-	@PostMapping("/")
+	@PostMapping("add/")
 	ResponseEntity<?> addRestaurand(@RequestBody Restaurant restaurent){
 		
 		return new ResponseEntity<>(restaurantService.addRestaurand(restaurent), HttpStatus.CREATED);

@@ -15,19 +15,19 @@ import com.ltimindtree.orderservice.web.dto.ResponseOrderDTO;
 import com.ltimindtree.orderservice.web.service.OrderService;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("api/v1/order/")
 public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
 
-	@PostMapping("/place")
+	@PostMapping
 	ResponseEntity<ResponseOrderDTO> placeOrder(@RequestBody RequestOrderDTO requestOrderDTO) {
 
 		return new ResponseEntity<>(orderService.placeOrder(requestOrderDTO), HttpStatus.OK);
 	}
 
-	@GetMapping("/{orderId}")
+	@GetMapping("{orderId}")
 	ResponseEntity<ResponseOrderDTO> getOrderDetails(@PathVariable("orderId") long orderId ) {
 
 		return new ResponseEntity<>(orderService.getOrderDetails(orderId), HttpStatus.OK);

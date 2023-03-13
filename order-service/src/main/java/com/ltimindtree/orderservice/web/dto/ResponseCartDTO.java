@@ -1,5 +1,6 @@
 package com.ltimindtree.orderservice.web.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ResponseCartDTO {
+public class ResponseCartDTO implements Serializable{
 
 	private long userId;
 

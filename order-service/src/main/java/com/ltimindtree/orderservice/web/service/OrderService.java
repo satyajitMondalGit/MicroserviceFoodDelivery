@@ -9,4 +9,6 @@ public interface OrderService {
 
 	ResponseOrderDTO getOrderDetails(long orderId);
 
+	void uppateStatus(long orderId, String status);
+
 }

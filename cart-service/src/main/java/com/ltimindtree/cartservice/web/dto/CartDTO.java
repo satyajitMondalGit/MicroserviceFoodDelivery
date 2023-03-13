@@ -18,9 +18,9 @@ import lombok.ToString;
 @ToString
 public class CartDTO {
 
-	@NotBlank
+//	@NotBlank(message = "User Id Cannot be blank")
 	private long userId;
-	@NotBlank
+//	@NotBlank(message = "Restaurant Id Cannot be blank")
 	private long resturantId;
 	private List<FoodItemDTO> foodItem;
 }
